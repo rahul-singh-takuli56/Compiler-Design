@@ -1,0 +1,35 @@
+%{
+ #include<stdio.h>
+ FILE *out;
+%}
+%%
+"/*" { // For Handling Multi-line comment
+ char c = input();
+ while (1) {
+ if (c == '*' && input() == '/') break;
+ c = input();
+ }
+ }
+"//" { // For Handling Single-line comment
+ char c = input();
+ while (c != '\n') {
+ c = input();
+ }
+ }
+.|\n { /* Any other character */
+ printf("%c", yytext[0]);
+fprintf(out, "%c", yytext[0]);
+ }
+%%
+int main(){
+ FILE *inp = fopen("program.c", "r");
+ out = fopen("out.c", "a");
+ yyin = inp;
+ yyout = out;
+ yylex();
+ fclose(inp);
+ return 0;
+}
+int yywrap(){
+ return 1;
+}
