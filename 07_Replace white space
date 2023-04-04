@@ -1,0 +1,21 @@
+%{
+ #include<stdio.h>
+ FILE *out;
+%}
+%%
+[ \t\n]+ { fprintf(out, " "); }
+. { }
+%%
+int main(){
+ FILE *inp = fopen("Input.txt", "r");
+ out = fopen("Output.txt", "a");
+ yyin = inp;
+ yyout = out;
+ yylex();
+ fclose(inp);
+ fclose(out);
+ return 0;
+}
+int yywrap(){
+ return 1;
+}
