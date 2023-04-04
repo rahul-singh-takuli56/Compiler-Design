@@ -1,0 +1,24 @@
+%{
+ #include<stdio.h>
+ int totalChars=0;
+ int whitespaces=0;
+ int words=0;
+%}
+%%
+[a-zA-Z0-9]+ { totalChars += strlen(yytext); words++; }
+[ ] { whitespaces++; totalChars++; }
+. { }
+%%
+int main(){
+ FILE *file = fopen("Input.txt", "r");
+ yyin = file;
+ yylex();
+ fclose(file);
+ printf("\nTotal Characters = %d", totalChars);
+ printf("\nTotal Whitespaces = %d", whitespaces);
+ printf("\nTotal Words = %d\n", words);
+ return 0;
+}
+int yywrap(){
+ return 1;
+}
